@@ -40,7 +40,7 @@ class TodoApp extends StatelessWidget {
               height: 20 / 14,
             ),
           )),
-      home: MainTodoPage(),
+      home: const MainTodoPage(),
     );
   }
 }

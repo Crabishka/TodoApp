@@ -1,7 +1,7 @@
-import 'package:get_it/get_it.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todolist_for_fittin/model/todo_job.dart';
-import 'package:todolist_for_fittin/modelview/AppState.dart';
+
 
 import 'dart:convert';
 

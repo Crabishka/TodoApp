@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:todolist_for_fittin/model/todo_job.dart';
 import 'package:todolist_for_fittin/modelview/AppState.dart';
 import 'package:todolist_for_fittin/pages/add_todo_page/add_todo_page.dart';
 import 'package:todolist_for_fittin/pages/add_todo_page/change_todo_page.dart';
@@ -169,7 +167,7 @@ class MainTodoPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddTodoPage()));
+              context, MaterialPageRoute(builder: (context) => const AddTodoPage()));
         },
         child: Icon(
           Icons.add,

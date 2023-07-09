@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -6,9 +5,9 @@ import 'package:todolist_for_fittin/model/todo_job.dart';
 import 'package:todolist_for_fittin/modelview/AppState.dart';
 
 class ChangeTodoPage extends StatefulWidget {
-  int index;
+  final int index;
 
-  ChangeTodoPage({Key? key, required this.index}) : super(key: key);
+  const ChangeTodoPage({Key? key, required this.index}) : super(key: key);
 
   @override
   State<ChangeTodoPage> createState() => _ChangeTodoPageState();
