@@ -61,7 +61,7 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> loadTodoJobsFromShared() async {
-    TodoRepository()
+   await TodoRepository()
         .getTodoJobsFromSharedPreference()
         .then((value) => _todoJobs = value);
     notifyListeners();
