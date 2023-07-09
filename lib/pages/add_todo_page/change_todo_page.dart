@@ -18,6 +18,7 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
   TextEditingController textFieldController = TextEditingController();
   bool isDeadlineExist = true;
   DateTime? pickedDate;
+  bool isDone = false;
 
   @override
   void initState() {
@@ -26,6 +27,7 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
         .getTodoJobById(widget.index);
     textFieldController.text = todoJob.text;
     pickedDate = todoJob.deadline;
+    isDone = todoJob.done;
   }
 
   @override
@@ -44,8 +46,10 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
                   Provider.of<AppState>(context, listen: false).changeTodoJob(
                       widget.index,
                       TodoJob(
-                          text: textFieldController.text,
-                          deadline: pickedDate));
+                        text: textFieldController.text,
+                        deadline: pickedDate,
+                        done: isDone
+                      ));
                   Navigator.pop(context);
                 }
               },
