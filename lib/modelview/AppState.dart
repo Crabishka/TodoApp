@@ -39,6 +39,10 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  TodoJob getTodoJobById(){
+
+  }
+
   void changeTodoJobStatusByObject(TodoJob todoJob, bool? value) {
     var newTodoJob = todoJob.copyWith(done: value ?? false);
     _todoJobs[_todoJobs.indexOf(todoJob)] = newTodoJob;
@@ -48,12 +52,10 @@ class AppState extends ChangeNotifier {
   }
 
   List<TodoJob> getTodoJobs() {
-    return isFinishedShowed
-        ? _todoJobs
-        : _todoJobs.where((element) => !element.done).toList();
+    return _todoJobs;
   }
 
-  void loadTodoJobsFromShared() async {
+  Future<void> loadTodoJobsFromShared() async {
     TodoRepository()
         .getTodoJobsFromSharedPreference()
         .then((value) => _todoJobs = value);

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist_for_fittin/model/todo_job.dart';
 import 'package:todolist_for_fittin/modelview/AppState.dart';
+import 'package:todolist_for_fittin/pages/add_todo_page/add_todo_page.dart';
+import 'package:todolist_for_fittin/pages/add_todo_page/change_todo_page.dart';
 
 class MainTodoPage extends StatelessWidget {
   const MainTodoPage({Key? key}) : super(key: key);
@@ -70,15 +73,14 @@ class MainTodoPage extends StatelessWidget {
                             onDismissed: (DismissDirection direction) {
                               if (direction == DismissDirection.endToStart) {
                                 Provider.of<AppState>(context, listen: false)
-                                    .removeTodoJobByObject(data[index]);
+                                    .removeTodoJob(index);
                               }
                               if (direction == DismissDirection.startToEnd) {}
                             },
                             confirmDismiss: (DismissDirection direction) async {
                               if (direction == DismissDirection.startToEnd) {
                                 Provider.of<AppState>(context, listen: false)
-                                    .changeTodoJobStatusByObject(
-                                    data[index], true);
+                                    .changeTodoJobStatus(index, true);
                                 return false;
                               } else {
                                 return true;
@@ -106,27 +108,45 @@ class MainTodoPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            child: CheckboxListTile(
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 0, vertical: 0),
-                                title: Text(
-                                  data[index].text,
-                                  style: themeData.textTheme.bodyLarge,
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: data[index].done,
+                                    onChanged: (value) {
+                                      Provider.of<AppState>(context,
+                                              listen: false)
+                                          .changeTodoJobStatus(index, value);
+                                    }),
+                                Expanded(
+                                  child: InkWell(
+                                    child: ListTile(
+                                      title: Text(
+                                        data[index].text,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: themeData.textTheme.bodyLarge,
+                                      ),
+                                      subtitle: data[index].deadline != null
+                                          ? Text(
+                                              DateFormat('dd-MMM-yyyy').format(
+                                                  data[index].deadline!),
+                                              style: themeData
+                                                  .textTheme.bodyMedium,
+                                            )
+                                          : null,
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => ChangeTodoPage(
+                                                    index: index,
+                                                  )));
+                                    },
+                                  ),
                                 ),
-                                subtitle: data[index].deadline != null
-                                    ? Text(
-                                        data[index].deadline.toString(),
-                                        style: themeData.textTheme.bodyMedium,
-                                      )
-                                    : null,
-                                value: data[index].done,
-                                onChanged: (value) {
-                                  Provider.of<AppState>(context, listen: false)
-                                      .changeTodoJobStatusByObject(
-                                          data[index], value);
-                                }),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -148,8 +168,8 @@ class MainTodoPage extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
-          Provider.of<AppState>(context, listen: false).addTodoJob(
-              TodoJob(text: "Новая задача", deadline: DateTime.now()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddTodoPage()));
         },
         child: Icon(
           Icons.add,
@@ -160,6 +180,9 @@ class MainTodoPage extends StatelessWidget {
   }
 
   BorderRadiusGeometry getBorderGeometry(int index, int max) {
+    if (max - 1 == 0) {
+      return const BorderRadius.all(Radius.circular(8));
+    }
     if (index == 0) {
       return const BorderRadius.vertical(top: Radius.circular(8));
     }
