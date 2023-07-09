@@ -13,6 +13,20 @@ class TodoRepository {
     prefs.setStringList('todoJobs', todoJobs);
   }
 
+  void updateTodoJobIntoSharedPreference(int index, TodoJob todoJob) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> todoJobs = prefs.getStringList('todoJobs') ?? [];
+    todoJobs[index] = json.encode(TodoJob.toJson(todoJob));
+    prefs.setStringList('todoJobs', todoJobs);
+  }
+
+  void removeTodoJobFromSharedPreference(int index) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> todoJobs = prefs.getStringList('todoJobs') ?? [];
+    todoJobs.removeAt(index);
+    prefs.setStringList('todoJobs', todoJobs);
+  }
+
   Future<List<TodoJob>> getTodoJobsFromSharedPreference() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> todoJobs = prefs.getStringList('todoJobs') ?? [];

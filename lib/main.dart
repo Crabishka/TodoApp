@@ -9,7 +9,8 @@ import 'package:todolist_for_fittin/todo_app.dart';
 final GetIt getIt = GetIt.instance;
 
 void main() async {
-  // await AppState.instance.loadTodoJobsFromShared();
+
   runApp(ChangeNotifierProvider(
       create: (_) => AppState.instance, child: TodoApp()));
+  await AppState.instance.loadTodoJobsFromShared();
 }
