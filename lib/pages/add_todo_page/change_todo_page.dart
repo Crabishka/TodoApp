@@ -20,6 +20,15 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
   DateTime? pickedDate;
 
   @override
+  void initState() {
+    super.initState();
+    TodoJob todoJob = Provider.of<AppState>(context, listen: false)
+        .getTodoJobById(widget.index);
+    textFieldController.text = todoJob.text;
+    pickedDate = todoJob.deadline;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +41,8 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
                       duration: Duration(seconds: 2),
                       content: Text('Ваша заметка пуста')));
                 } else {
-                  Provider.of<AppState>(context, listen: false).addTodoJob(
+                  Provider.of<AppState>(context, listen: false).changeTodoJob(
+                      widget.index,
                       TodoJob(
                           text: textFieldController.text,
                           deadline: pickedDate));

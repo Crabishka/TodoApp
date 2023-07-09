@@ -19,6 +19,11 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void changeTodoJob(int index, TodoJob newTodoJob) {
+    _todoJobs[index] = newTodoJob;
+    notifyListeners();
+  }
+
   void changeShowedStatus() {
     isFinishedShowed = !isFinishedShowed;
     notifyListeners();
@@ -39,8 +44,8 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  TodoJob getTodoJobById(){
-
+  TodoJob getTodoJobById(int index) {
+    return _todoJobs[index];
   }
 
   void changeTodoJobStatusByObject(TodoJob todoJob, bool? value) {
