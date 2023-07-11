@@ -40,6 +40,8 @@ dependencies:
   shared_preferences: 2.2.0
   google_fonts: any
   intl: any
+  sqflite: any
+  path_provider: any
 
 dev_dependencies:
   flutter_test:

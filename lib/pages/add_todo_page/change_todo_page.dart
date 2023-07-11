@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist_for_fittin/model/todo_job.dart';
-import 'package:todolist_for_fittin/modelview/AppState.dart';
+import 'package:todolist_for_fittin/modelview/app_provider.dart';
 
 class ChangeTodoPage extends StatefulWidget {
   final int index;
@@ -22,7 +22,7 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
   @override
   void initState() {
     super.initState();
-    TodoJob todoJob = Provider.of<AppState>(context, listen: false)
+    TodoJob todoJob = Provider.of<AppProvider>(context, listen: false)
         .getTodoJobById(widget.index);
     textFieldController.text = todoJob.text;
     pickedDate = todoJob.deadline;
@@ -42,7 +42,7 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
                       duration: Duration(seconds: 2),
                       content: Text('Ваша заметка пуста')));
                 } else {
-                  Provider.of<AppState>(context, listen: false).changeTodoJob(
+                  Provider.of<AppProvider>(context, listen: false).changeTodoJob(
                       widget.index,
                       TodoJob(
                         text: textFieldController.text,
@@ -104,7 +104,7 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
                 }),
             InkWell(
               onTap: () {
-                Provider.of<AppState>(context, listen: false)
+                Provider.of<AppProvider>(context, listen: false)
                     .removeTodoJob(widget.index);
                 Navigator.pop(context);
               },

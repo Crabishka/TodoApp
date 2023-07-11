@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist_for_fittin/model/todo_job.dart';
-import 'package:todolist_for_fittin/modelview/AppState.dart';
+import 'package:todolist_for_fittin/modelview/app_provider.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                       duration: Duration(seconds: 2),
                       content: Text('Ваша заметка пуста')));
                 } else {
-                  Provider.of<AppState>(context, listen: false).addTodoJob(
+                  Provider.of<AppProvider>(context, listen: false).addTodoJob(
                       TodoJob(
                           text: textFieldController.text,
                           deadline: pickedDate));
