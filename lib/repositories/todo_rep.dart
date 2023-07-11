@@ -20,9 +20,10 @@ class TodoRepository {
   Future<void> init() async {
     _database = await openDatabase(
       'todo.db',
+      version: 1,
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE todo(id INTEGER PRIMARY KEY, text TEXT, deadline TEXT, done BOOLEAN )');
+            'CREATE TABLE todo(id INTEGER PRIMARY KEY, text TEXT, deadline TEXT, done BOOLEAN)');
       },
     );
     await loadTodoJobs();

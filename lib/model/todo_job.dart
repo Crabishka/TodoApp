@@ -6,18 +6,12 @@ class TodoJob {
 
   TodoJob({required this.text, this.deadline, this.done = false, this.id});
 
-  TodoJob copyWith({
-    String? text,
-    DateTime? deadline,
-    bool? done,
-    int? id
-  }) {
+  TodoJob copyWith({String? text, DateTime? deadline, bool? done, int? id}) {
     return TodoJob(
-      text: text ?? this.text,
-      deadline: deadline ?? this.deadline,
-      done: done ?? this.done,
-      id: id ?? this.id
-    );
+        text: text ?? this.text,
+        deadline: deadline ?? this.deadline,
+        done: done ?? this.done,
+        id: id ?? this.id);
   }
 
   @override
@@ -36,7 +30,7 @@ class TodoJob {
     return TodoJob(
       id: jsonData['id'] ?? DateTime.now().microsecondsSinceEpoch,
       text: jsonData['text'],
-      done: jsonData['done'],
+      done: jsonData['done'] == 1, // Sqlite костыль
       deadline: jsonData['deadline'] == null
           ? null
           : DateTime.parse(jsonData['deadline']),
@@ -47,6 +41,6 @@ class TodoJob {
         'id': todoJob.id,
         'text': todoJob.text,
         'deadline': todoJob.deadline?.toIso8601String(),
-        'done': todoJob.done
+        'done': todoJob.done ? 1 : 0
       };
 }

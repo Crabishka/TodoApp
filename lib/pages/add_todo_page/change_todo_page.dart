@@ -5,9 +5,9 @@ import 'package:todolist_for_fittin/model/todo_job.dart';
 import 'package:todolist_for_fittin/modelview/app_provider.dart';
 
 class ChangeTodoPage extends StatefulWidget {
-  final int index;
+  final TodoJob? todoJob;
 
-  const ChangeTodoPage({Key? key, required this.index}) : super(key: key);
+  const ChangeTodoPage({Key? key, required this.todoJob}) : super(key: key);
 
   @override
   State<ChangeTodoPage> createState() => _ChangeTodoPageState();
@@ -17,16 +17,18 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
   TextEditingController textFieldController = TextEditingController();
   bool isDeadlineExist = true;
   DateTime? pickedDate;
-  bool isDone = false;
 
   @override
   void initState() {
     super.initState();
-    TodoJob todoJob = Provider.of<AppProvider>(context, listen: false)
-        .getTodoJobById(widget.index);
-    textFieldController.text = todoJob.text;
-    pickedDate = todoJob.deadline;
-    isDone = todoJob.done;
+    textFieldController.text = widget.todoJob?.text ?? '';
+    pickedDate = widget.todoJob?.deadline;
+  }
+
+  @override
+  void dispose() {
+    textFieldController.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,26 +38,23 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
           backgroundColor: Theme.of(context).colorScheme.background,
           actions: [
             TextButton(
+              child: Text("СОХРАНИТЬ",
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      )),
               onPressed: () {
                 if (textFieldController.text == '') {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       duration: Duration(seconds: 2),
                       content: Text('Ваша заметка пуста')));
                 } else {
-                  Provider.of<AppProvider>(context, listen: false).changeTodoJob(
-                      widget.index,
-                      TodoJob(
-                        text: textFieldController.text,
-                        deadline: pickedDate,
-                        done: isDone
-                      ));
-                  Navigator.pop(context);
+                  final todo = widget.todoJob?.copyWith(
+                      text: textFieldController.text, deadline: pickedDate);
+                  Navigator.of(context).maybePop(todo);
+                  // Navigator.pop(context);
                 }
               },
-              child: Text("СОХРАНИТЬ",
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold)),
             )
           ],
           leading: IconButton(
@@ -94,7 +93,6 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
                 subtitle: pickedDate != null
                     ? Text(
                         DateFormat('dd-MMM-yyyy').format(pickedDate!),
-                        // нужна локализация
                         style: Theme.of(context).textTheme.bodyLarge,
                       )
                     : null,
@@ -104,9 +102,7 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
                 }),
             InkWell(
               onTap: () {
-                Provider.of<AppProvider>(context, listen: false)
-                    .removeTodoJob(widget.index);
-                Navigator.pop(context);
+                Navigator.of(context).maybePop(widget.todoJob);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,

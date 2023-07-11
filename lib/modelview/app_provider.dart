@@ -46,6 +46,8 @@ class AppProvider extends ChangeNotifier {
   }
 
   List<TodoJob> getTodoJobs() {
-    return TodoRepository().getAll();
+    return isFinishedShowed
+        ? TodoRepository().getAll()
+        : TodoRepository().getNotDone();
   }
 }

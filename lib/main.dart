@@ -9,10 +9,10 @@ import 'package:todolist_for_fittin/todo_app.dart';
 final GetIt getIt = GetIt.instance;
 
 void main() async {
-  await TodoRepository().init();
+  WidgetsFlutterBinding.ensureInitialized();
 
+  await TodoRepository().init();
 
   runApp(ChangeNotifierProvider(
       create: (_) => AppProvider.instance, child: const TodoApp()));
-  // await AppState.instance.loadTodoJobsFromShared();
 }
