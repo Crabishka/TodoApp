@@ -41,7 +41,7 @@ class AppProvider extends ChangeNotifier {
 
   void changeTodoJobStatus(TodoJob todoJob, bool? value) {
     TodoJob newTodoJob = todoJob.copyWith(done: value ?? false);
-    TodoRepository().saveTodoJob(todoJob);
+    TodoRepository().saveTodoJob(newTodoJob);
     notifyListeners();
   }
 

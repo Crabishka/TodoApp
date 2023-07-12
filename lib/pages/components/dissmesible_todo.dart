@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist_for_fittin/model/todo_job.dart';
+import 'package:todolist_for_fittin/pages/components/container_with_icon.dart';
 import 'package:todolist_for_fittin/pages/components/todo_filling.dart';
-import 'package:todolist_for_fittin/pages/main_todo_page/main_todo_page.dart';
 
 import '../../modelview/app_provider.dart';
 
