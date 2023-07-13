@@ -16,7 +16,6 @@ class MainTodoPage extends StatelessWidget {
     final themeData = Theme.of(context);
     final provider = Provider.of<AppProvider>(context);
     final data = provider.getTodoJobs();
-    final status = provider.isFinishedShowed;
     return Scaffold(
       backgroundColor: themeData.colorScheme.background,
       appBar: AppBar(

@@ -11,22 +11,23 @@ class ListStatusRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var nonListenProvider = Provider.of<AppProvider>(context, listen: false);
+    var provider = Provider.of<AppProvider>(context);
     var theme = Theme.of(context);
     return Row(
       children: [
         Text(
-          "Выполнено - ${Provider.of<AppProvider>(context, listen: false).getNumberOfFinishedTask()}",
+          "Выполнено - ${nonListenProvider.getNumberOfFinishedTask()}",
           style: theme.textTheme.bodyLarge?.copyWith(
               color: theme.colorScheme.tertiary, fontWeight: FontWeight.w700),
         ),
         const Spacer(),
         IconButton(
             onPressed: () {
-              Provider.of<AppProvider>(context, listen: false)
-                  .changeShowedStatus();
+              nonListenProvider.changeShowedStatus();
             },
             icon: Icon(
-              Provider.of<AppProvider>(context).isFinishedShowed
+              provider.isFinishedShowed
                   ? Icons.visibility
                   : Icons.visibility_off,
               color: theme.colorScheme.secondary,

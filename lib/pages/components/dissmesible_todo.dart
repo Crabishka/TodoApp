@@ -13,25 +13,22 @@ class DismissibleTodo extends StatelessWidget {
     required this.todoJob,
   });
 
-
-
   final TodoJob todoJob;
 
   @override
   Widget build(BuildContext context) {
+    var nonListenProvider = Provider.of<AppProvider>(context, listen: false);
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (DismissDirection direction) {
         if (direction == DismissDirection.endToStart) {
-          Provider.of<AppProvider>(context, listen: false)
-              .removeTodoJob(todoJob);
+          nonListenProvider.removeTodoJob(todoJob);
         }
         if (direction == DismissDirection.startToEnd) {}
       },
       confirmDismiss: (DismissDirection direction) async {
         if (direction == DismissDirection.startToEnd) {
-          Provider.of<AppProvider>(context, listen: false)
-              .changeTodoJobStatus(todoJob, true);
+          nonListenProvider.changeTodoJobStatus(todoJob, true);
           return false;
         } else {
           return true;

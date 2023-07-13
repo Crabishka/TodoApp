@@ -11,7 +11,11 @@ class AppProvider extends ChangeNotifier {
 
   AppProvider._();
 
-  bool isFinishedShowed = true;
+  bool _isFinishedShowed = true;
+
+
+  bool get isFinishedShowed => _isFinishedShowed;
+
 
   static final instance = AppProvider._();
 
@@ -30,7 +34,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   void changeShowedStatus() {
-    isFinishedShowed = !isFinishedShowed;
+    _isFinishedShowed = !_isFinishedShowed;
     notifyListeners();
   }
 
@@ -46,7 +50,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   List<TodoJob> getTodoJobs() {
-    return isFinishedShowed
+    return _isFinishedShowed
         ? TodoRepository().getAll()
         : TodoRepository().getNotDone();
   }
