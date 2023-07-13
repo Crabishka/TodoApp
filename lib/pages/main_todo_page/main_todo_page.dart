@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist_for_fittin/model/todo_job.dart';
 import 'package:todolist_for_fittin/modelview/app_provider.dart';
-import 'package:todolist_for_fittin/pages/add_todo_page/add_todo_page.dart';
+
 import 'package:todolist_for_fittin/pages/add_todo_page/change_todo_page.dart';
 import 'package:todolist_for_fittin/pages/components/list_of_todo_tile.dart';
 import 'package:todolist_for_fittin/pages/components/list_status_row.dart';
@@ -14,8 +14,9 @@ class MainTodoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final data = Provider.of<AppProvider>(context).getTodoJobs();
-    final status = Provider.of<AppProvider>(context).isFinishedShowed;
+    final provider = Provider.of<AppProvider>(context);
+    final data = provider.getTodoJobs();
+    final status = provider.isFinishedShowed;
     return Scaffold(
       backgroundColor: themeData.colorScheme.background,
       appBar: AppBar(
@@ -34,7 +35,9 @@ class MainTodoPage extends StatelessWidget {
             children: [
               const ListStatusRow(),
               Expanded(
-                child: ListOfTodoTile(todoJobs: data),
+                child: ListOfTodoTile(
+                  todoJobs: data,
+                ),
               ),
             ],
           ),
@@ -44,9 +47,14 @@ class MainTodoPage extends StatelessWidget {
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddTodoPage()));
+        onPressed: () async {
+          var dialogTodo = await Navigator.push(
+              context,
+              MaterialPageRoute<TodoJob?>(
+                  builder: (context) => const ChangeTodoPage()));
+          if (dialogTodo != null) {
+            provider.addTodoJob(dialogTodo);
+          }
         },
         child: Icon(
           Icons.add,
@@ -56,5 +64,3 @@ class MainTodoPage extends StatelessWidget {
     );
   }
 }
-
-

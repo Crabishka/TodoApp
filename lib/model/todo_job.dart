@@ -43,4 +43,9 @@ class TodoJob {
         'deadline': todoJob.deadline?.toIso8601String(),
         'done': todoJob.done ? 1 : 0
       };
+
+  @override
+  String toString() {
+    return 'TodoJob{text: $text, id: $id, deadline: $deadline, done: $done}';
+  }
 }

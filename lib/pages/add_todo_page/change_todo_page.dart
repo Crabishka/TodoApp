@@ -3,11 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist_for_fittin/model/todo_job.dart';
 import 'package:todolist_for_fittin/modelview/app_provider.dart';
+import 'package:todolist_for_fittin/pages/components/delete_tile.dart';
+import 'package:todolist_for_fittin/pages/components/todo_text_field.dart';
 
 class ChangeTodoPage extends StatefulWidget {
   final TodoJob? todoJob;
 
-  const ChangeTodoPage({Key? key, required this.todoJob}) : super(key: key);
+  const ChangeTodoPage({Key? key, this.todoJob}) : super(key: key);
 
   @override
   State<ChangeTodoPage> createState() => _ChangeTodoPageState();
@@ -50,9 +52,11 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
                       content: Text('Ваша заметка пуста')));
                 } else {
                   final todo = widget.todoJob?.copyWith(
-                      text: textFieldController.text, deadline: pickedDate);
+                          text: textFieldController.text,
+                          deadline: pickedDate) ??
+                      TodoJob(text: textFieldController.text,
+                      deadline: pickedDate);
                   Navigator.of(context).maybePop(todo);
-                  // Navigator.pop(context);
                 }
               },
             )
@@ -60,27 +64,14 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
           leading: IconButton(
             icon: const Icon(Icons.close),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context).maybePop(widget.todoJob);
             },
           )),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            Card(
-                margin: EdgeInsets.zero,
-                child: TextField(
-                  maxLines: 6,
-                  textCapitalization: TextCapitalization.sentences,
-                  controller: textFieldController,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    hintText: 'Место для ваших заметок',
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.all(16),
-                    hintStyle: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                )),
+            TodoTextField(textFieldController: textFieldController),
             const SizedBox(
               height: 16,
             ),
@@ -96,33 +87,12 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
                         style: Theme.of(context).textTheme.bodyLarge,
                       )
                     : null,
-                value: pickedDate != null ? true : false,
+                value: pickedDate != null,
                 onChanged: (_) {
                   selectDate(context);
                 }),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).maybePop(widget.todoJob);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.delete_outline,
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    'Удалить',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            )
+            if (widget.todoJob != null)
+            const DeleteTile()
           ],
         ),
       ),
@@ -143,3 +113,7 @@ class _ChangeTodoPageState extends State<ChangeTodoPage> {
     }
   }
 }
+
+
+
+

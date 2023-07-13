@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:todolist_for_fittin/model/todo_job.dart';
 import 'package:todolist_for_fittin/pages/components/dissmesible_todo.dart';
@@ -6,7 +5,10 @@ import 'package:todolist_for_fittin/pages/components/dissmesible_todo.dart';
 class ListOfTodoTile extends StatelessWidget {
   final List<TodoJob> todoJobs;
 
-  const ListOfTodoTile({Key? key, required this.todoJobs}) : super(key: key);
+  const ListOfTodoTile({
+    Key? key,
+    required this.todoJobs,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
